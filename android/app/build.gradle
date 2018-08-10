@@ -107,6 +107,21 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            storeFile file('../lcczmy.keystore')
+            storePassword 'li15192191379'
+            keyAlias 'licc'
+            keyPassword '123456'
+            println("====== signingConfigs.release ======")
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
     splits {
         abi {
             reset()
@@ -134,6 +149,7 @@ android {
             }
         }
     }
+
 }
 
 dependencies {

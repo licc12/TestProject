@@ -52,7 +52,7 @@ const RightIconItem = ({onPress, icon}) => {
 
 export default class Header extends Component {
     static propTypes = {
-        style: View.propTypes.style,
+        style: PropTypes.style,
         title: PropTypes.string,
         showGoBack: PropTypes.bool,
         onBack: PropTypes.func,

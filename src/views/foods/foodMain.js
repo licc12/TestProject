@@ -101,12 +101,12 @@ export default class foodMain extends Component {
 
 
                 </ScrollView>
-                <TouchableOpacity style={{padding: 10}}
-                    onPress={()=>{
-                        this.refs.toast.show('hello Toast!',2000); }
-                    }>
-                    <Text>Press me</Text>
-                </TouchableOpacity>
+                {/*<TouchableOpacity style={{padding: 10}}*/}
+                    {/*onPress={()=>{*/}
+                        {/*this.refs.toast.show('hello Toast!',2000); }*/}
+                    {/*}>*/}
+                    {/*<Text>Press me</Text>*/}
+                {/*</TouchableOpacity>*/}
                 <Loading isShow={isFetching}/>
                 <Toast
                     ref="toast"
@@ -172,34 +172,6 @@ const ListItems = ({foodCategory,fun})=>{
     )
 
 }
-
-// class ItemListsChild extends  Component{
-//     constructor(props){
-//         super(props);
-//         // alert(JSON.stringify(this.props));
-//     }
-//     _gotoDetails =() => {
-//         alert(JSON.stringify(this.props))
-//     }
-//     render() {
-//         return (
-//             <TouchableOpacity
-//                 key={this.props.id}
-//                 activeOpacity={0.75}
-//                 style={{width: 110,height: 65,alignItems:'center',marginBottom: 25}}
-//                 onPress={this._gotoDetails}
-//             >
-//
-//                 <Image style={{width: 40,height: 40}} resizeMode='contain' source={{uri: this.props.image_url}}>
-//                 </Image>
-//                 <Text style={{color:'grey',fontSize:12,marginTop:5}}>
-//                     {this.props.name}
-//                 </Text>
-//
-//             </TouchableOpacity>
-//         )
-//     }
-// }
 const FootHandleView = ({handleAction}) => {
     return (
         <View style={styles.handleView}>
@@ -304,6 +276,7 @@ const styles = StyleSheet.create({
     handleView:{
         width:330,
         height: 60,
+        marginTop: 10,
         flexDirection:'row',//子容器水平排列
         alignItems:'center',
         justifyContent: 'center',

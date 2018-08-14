@@ -7,12 +7,8 @@ import Header from "../../component/Header";
 export default class Login extends Component{
     constructor(props){
         super(props)
-        // alert(JSON.stringify(this.props));
 
     }
-    static navigationOptions = {
-        header:null
-    };
     componentDidMount() {
         // alert('will');
     }

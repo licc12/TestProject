@@ -11,6 +11,8 @@ import TabBarItem from './component/TabBarItem';
 import Details from './component/Details';
 import ShopCar from './component/ShopCar';
 import Login from "./views/login/login";
+import foodDetails from "./views/foods/foodDetails";
+import setting from "./views/mine/setting";
 import {
     Image,
     Platform,
@@ -18,7 +20,7 @@ import {
     Text,
     View
 } from 'react-native';
-import foodDetails from "./views/foods/foodDetails";
+
 
 
 type Props = {};
@@ -34,38 +36,6 @@ export default class App extends Component<Props> {
     render() {
         return (
             <Navigator />
-            //         <TabNavigator>
-            //             <TabNavigator.Item
-            //                 title="食物百科"
-            //                 selected={0 == this.state.selectIndex}
-            //                 renderIcon={() => <Image style={styles.icon} source={require('./images/ic_tab_search.png')} />}
-            //                 renderSelectedIcon={() => <Image style={styles.icon} source={require('./images/ic_tab_search_select.png')} />}
-            //                 onPress={() => this.setState({selectIndex: 0})}>
-            //                 {/*<Splash/>*/}
-            //                 {router.Splash}
-            //             </TabNavigator.Item>
-            //             <TabNavigator.Item
-            //                 title="逛吃"
-            //                 selected={1 == this.state.selectIndex}
-            //                 renderIcon={() => <Image style={styles.icon} source={require('./images/ic_tab_homepage.png')} />}
-            //                 renderSelectedIcon={() => <Image style={styles.icon} source={require('./images/ic_tab_homepage_select.png')} />}
-            //                 onPress={() => this.setState({selectIndex: 1})}>
-            //
-            //                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            //                     <Text>逛吃</Text>
-            //                 </View>
-            //             </TabNavigator.Item>
-            //             <TabNavigator.Item
-            //                 title="我的"
-            //                 selected={2 == this.state.selectIndex}
-            //                 renderIcon={() => <Image style={styles.icon} source={require('./images/ic_tab_my.png')}/>}
-            //                 renderSelectedIcon={() => <Image style={styles.icon} source={require('./images/ic_tab_my_select.png')} />}
-            //                 onPress={() => this.setState({selectIndex: 2})}>
-            //                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            //                     <Text>我的</Text>
-            //                 </View>
-            //             </TabNavigator.Item>
-            //         </TabNavigator>
         );
     }
 }
@@ -151,6 +121,7 @@ const Navigator = StackNavigator(
         ShopCar: {screen: ShopCar},
         Login: {screen: Login},
         foodDetails:{screen:foodDetails},
+        setting:{screen:setting},
     },
     {
         navigationOptions: {

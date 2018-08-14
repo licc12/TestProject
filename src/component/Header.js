@@ -45,7 +45,7 @@ const RightIconItem = ({onPress, icon}) => {
             style={styles.rightIconItem}
             onPress={onPress}
         >
-            <Image style={{width: 18, height: 18}} source={icon} resizeMode={"contain"}/>
+            <Image style={{width: 20, height: 20}} source={icon} resizeMode={"contain"}/>
         </TouchableOpacity>
     )
 }
@@ -74,7 +74,7 @@ export default class Header extends Component {
             style, rightTitle, onRight, rightIcon,
             renderRightItem
         } = this.props
-
+        // alert('--77--'+JSON.stringify(this.props));
         return (
             <View style={[styles.header, style]}>
                 {showGoBack && <LeftItem onPress={onBack}/>}

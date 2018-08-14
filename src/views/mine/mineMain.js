@@ -9,7 +9,7 @@ export default class mineMain extends Component {
         // headerTitle: '我的',
         header:null
     };
-    goLogin =()=>{
+    _goLogin =()=>{
         this.props.navigation.navigate('Login');
     }
 
@@ -17,7 +17,7 @@ export default class mineMain extends Component {
     render() {
         return (
             <View style={{flex: 1,backgroundColor:'#f5f5f5'}}>
-                <HeaderView onPress = {this.goLogin}/>
+                <HeaderView onPress = {this._goLogin} props = {this.props}/>
                 <ProfileStaticCell
                     title="我的照片"
                     style={{borderBottomWidth:1}}
@@ -36,35 +36,8 @@ export default class mineMain extends Component {
                     imageName={require('../../images/ic_my_upload.png')}
                     onPress={this._onPressStaticCell}
                 />
-                <ItemList
-                    title="安全等级"
-                    style={{borderBottomWidth: 1}}
-                    imageName={require('../../images/ic_my_photos.png')}
-                    onPress={this._skip}
-                />
-                <ItemList
-                    title="修改密码"
-                    style={{borderBottomWidth: 1}}
-                    imageName={require('../../images/ic_my_photos.png')}
-                    onPress={this._skip}
-                />
-                <ItemList
-                    title="问题反馈"
-                    style={{borderBottomWidth: 1}}
-                    imageName={require('../../images/ic_my_photos.png')}
-                    onPress={this._skip}
-                />
-                <ItemList
-                    title="一键分享"
-                    style={{borderBottomWidth: 1}}
-                    imageName={require('../../images/ic_my_photos.png')}
-                    onPress={this._skip}
-                />
             </View>
         )
-    }
-    _skip(title) {
-        alert(title);
     }
 
 }
@@ -127,7 +100,9 @@ class HeaderView extends Component{
             onPress:this.props.onPress
         }
     }
-
+    _gotoSetting = ()=>{
+        this.props.props.navigation.navigate('setting');
+    }
     render(){
         return(
             <ImageBackground
@@ -137,7 +112,7 @@ class HeaderView extends Component{
                     <Text style={{color:'#fff',fontSize:16}}>我的</Text>
                     <TouchableOpacity
                         activeOpacity={0.75}
-                        onPress={()=>{alert('你点击了设置')}}
+                        onPress={this._gotoSetting}
                         style={styles.settingContainer}>
                         <Image style={{width: 20, height: 20}} source={require('../../images/ic_my_setting.png')}/>
                     </TouchableOpacity>

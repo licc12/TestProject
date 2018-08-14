@@ -17,7 +17,7 @@ export default class foodDetails extends Component{
             sortTypes:[],
             passProps:this.props.navigation.state.params.passProps,
         }
-        alert('--20--'+this.props.navigation.state.params.passProps.category.id);
+        // alert('--20--'+this.props.navigation.state.params.passProps.category.id);
     }
     getFoodDetailsManager = new getFoodDetailsManager(this.props.navigation.state.params.passProps.kind.kind, this.props.navigation.state.params.passProps.category.id)
     componentDidMount() {
@@ -37,7 +37,7 @@ export default class foodDetails extends Component{
         try {
             const result = await fetch(URL).then(response => response.json())
             this.setState({sortTypes: result.types})
-            // alert('--36--'+JSON.stringify(result));
+            alert('--36--'+JSON.stringify(result));
         } catch (error) {
             alert(`[Foods] fetch sort types error: ${error}`)
         }

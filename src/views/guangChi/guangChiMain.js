@@ -4,8 +4,11 @@
 import React, { Component } from 'react'
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import Header from "../../component/Header";
-import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
+import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import GCEvaluation from "./GCEvaluation";
+import GCKnowledge from "./GCKnowledge";
+import GCFood from "./GCFood";
+import GCHome from "./GCHome";
 var Dimensions = require('Dimensions');
 var ScreenWidth = Dimensions.get('window').width;
 export default class guangChiMain extends Component {
@@ -13,7 +16,7 @@ export default class guangChiMain extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            label: [{'title':'首页',type:0}, {'title':'测评',type:1}, {'title':'知识',type:2}, {'title':'美食',type:3}],
+            label: [{'title':'首页',type:1}, {'title':'测评',type:2}, {'title':'知识',type:3}, {'title':'美食',type:4}],
         };
     }
     _goLogin =()=>{
@@ -39,8 +42,10 @@ class TabTopView extends Component {
         return (
             <ScrollableTabView
                 style={styles.container}
-                renderTabBar={() => <ScrollableTabBar />}
-                tabBarUnderlineStyle={{width:ScreenWidth/label.length, height: 1, backgroundColor: '#FF0000'}}
+                renderTabBar={() => <DefaultTabBar />}
+                tabBarPosition='top'
+                scrollWithoutAnimation={false}
+                tabBarUnderlineStyle={{width:ScreenWidth/4, height: 2, backgroundColor: '#FF0000'}}
                 tabBarActiveTextColor='#FF0000'>
                 {
                     label.map((item,index)=>{
@@ -64,16 +69,16 @@ class PageView extends Component {
         return (
             <View style={{flex:1}}>
                 {
-                    (type == 1) && <PageViewChildType0 style={styles.textStyle}>{title}0</PageViewChildType0>
+                    (type == 1) && <GCHome style={styles.textStyle}/>
                 }
                 {
-                    (type == 2) && <GCEvaluation style={styles.textStyle}>{title}1</GCEvaluation>
+                    (type == 2) && <GCEvaluation style={styles.textStyle}/>
                 }
                 {
-                    (type == 3) && <Text style={styles.textStyle}>{title}2</Text>
+                    (type == 3) && <GCKnowledge style={styles.textStyle}/>
                 }
                 {
-                    (type == 4) && <Text style={styles.textStyle}>{title}2</Text>
+                    (type == 4) && <GCFood style={styles.textStyle}/>
                 }
             </View>
         );
@@ -85,12 +90,13 @@ class PageView extends Component {
 class PageViewChildType0 extends Component {
     constructor(props) {
         super(props);
+        // alert('----'+JSON.stringify(this.props.item));
     }
     render() {
         let {title,type} = this.props.item;
         return (
             <View style={{flex:1}}>
-
+                <Text>{title}</Text>
             </View>
         );
     }
@@ -158,6 +164,8 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        // paddingHorizontal:10,
+        // backgroundColor:'red'
         // marginTop: 20
     },
     lineStyle: {
@@ -169,7 +177,7 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize:20,
         marginTop:20,
-        textAlign:'center',
+        // textAlign:'center',
     },
 
 })

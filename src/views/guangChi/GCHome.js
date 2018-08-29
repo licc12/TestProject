@@ -18,7 +18,10 @@ const EVALUATING_ID = 1;
 var Dimensions = require('Dimensions');
 var ScreenWidth = Dimensions.get('window').width;
 var ScreenHeight = Dimensions.get('window').height;
-const itemWidth = (ScreenWidth - 15 * 2 - 10) / 2
+const itemWidth = (ScreenWidth - 15 * 2 - 10) / 2;
+
+let canLoadMore = false;
+
 @observer
 export default class GCKnowledge extends Component {
 
@@ -63,11 +66,13 @@ export default class GCKnowledge extends Component {
      * _onEndReach 在不够一页时被触发
      * @private
      */
-    _onEndReach = () => this.homeListStore.page++
+    onRefresh = () => {
+        this.homeListStore.page = 1
+        canLoadMore = false
+    }
 
 
     renderChildren = (feed) => {
-        const {isFetching} = this.homeListStore;
         // 默认高度
         let height = itemWidth + 50;
         let titleHeight = 30;
@@ -93,9 +98,16 @@ export default class GCKnowledge extends Component {
                 titleHeight={titleHeight}
                 style={style}
                 feed={feed}
-                onPress={this.onPressCell}
+                onPressCell={this.onPressCell}
             />
         )
+    }
+    onPressCell = feed=>{
+        // alert('--30--'+JSON.stringify(this.props));
+        this.props.navigation.navigate('GCDetails',{
+            id: 'GCDetails',
+            feed
+        });
     }
     /**
      * _renderFooter 上拉加载更多
@@ -103,29 +115,41 @@ export default class GCKnowledge extends Component {
      */
     _renderFooter = () => <LoadMoreFooter isNoMore={this.homeListStore.isNoMore}/>
 
-    getAutoResponsiveProps = () => ({itemMargin: 10})
+    getAutoResponsiveProps = () => ({itemMargin: 10});
 
+    onMomentumScrollEnd = event => {
+        // alert('a--'+JSON.stringify(event.nativeEvent));
+        const {contentOffset, layoutMeasurement, contentSize} = event.nativeEvent;
+
+        let contentSizeH = contentSize.height;
+        let viewBottomY = contentOffset.y + layoutMeasurement.height;
+
+        canLoadMore = viewBottomY >= contentSizeH;
+
+        if (Math.abs(viewBottomY - contentSizeH) <= 20 && canLoadMore) {
+            this.homeListStore.page++
+            canLoadMore = false
+        }
+    }
     render() {
-        const {isFetching, isRefreshing, feedList} = this.homeListStore;
-        // alert('--64--'+JSON.stringify(feedList));
+        const {isFetching, feedList} = this.homeListStore;
         let scrollViewH = ScreenHeight - 44 - 49 - 60;
         return (
             <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
                 {!isFetching &&
                     <ScrollView
-                        contentContainerStyle={{paddingTop:10,}}
                         ref={scrollView => this.scrollView = scrollView}
-                        style={{width: ScreenWidth, height: scrollViewH}}
+                        contentContainerStyle={{paddingTop:10,}}
+                        style={{width: ScreenWidth, height: scrollViewH}}//这个宽度、高度不可设置到contentContainerStyle中
                         automaticallyAdjustContentInsets={false}
                         removeClippedSubviews={true}
                         bounces={true}
                         scrollEventThrottle={16}
-                        scrollEnabled = {true}
-                        // onMomentumScrollEnd={this.onMomentumScrollEnd}
+                        onMomentumScrollEnd={this.onMomentumScrollEnd}
                         refreshControl={
                             <RefreshControl
                                 refreshing={isFetching}
-                                onRefresh={this._onRefresh}
+                                onRefresh={this.onRefresh}
                                 colors={['rgb(217,51,58)']}
                             />
                         }
@@ -138,22 +162,27 @@ export default class GCKnowledge extends Component {
                                 </AutoResponisve>
                             </View>
                         }
-
+                        {!isFetching&&this._renderFooter()}
                     </ScrollView>
-
                 }
                 <Loading isShow={isFetching}/>
                 <Toast ref={toast => this.toast = toast}/>
             </View>
         );
     }
-
-
 }
 
 
 @observer
 class HomeItem extends PureComponent {
+    constructor(props){
+        super(props)
+
+    }
+    onPress = ()=>{
+        const {onPressCell,feed} = this.props
+        onPressCell && onPressCell(feed);
+    }
 
     render() {
         const {feed, onPress, style, titleHeight} = this.props
@@ -166,6 +195,7 @@ class HomeItem extends PureComponent {
             <TouchableOpacity
                 activeOpacity={0.75}
                 style={[style, {backgroundColor: '#fff'}]}
+                onPress={this.onPress}
             >
                 <Image
                     style={{
@@ -176,44 +206,44 @@ class HomeItem extends PureComponent {
                     defaultSource={require('../../images/img_horizontal_default.png')}
                 />
                 {(feed.content_type == 5) &&
-                <View style={{width: style.width, height: titleHeight, paddingHorizontal: 4, paddingTop: 8,}}>
-                    <View style={{
-                        width: style.width - 8,
-                        height: titleHeight - 8,
-                        justifyContent: 'space-around',
-                        borderBottomWidth: 1,
-                        borderColor: '#ccc'
-                    }}>
-                        <Text style={{color: '#333', fontSize: 14}} numberOfLines={1}>{feed.title}</Text>
-                        <Text style={{color: '#999', fontSize: 13}} numberOfLines={2}>{feed.description}</Text>
+                    <View style={{width: style.width, height: titleHeight, paddingHorizontal: 4, paddingTop: 8,}}>
+                        <View style={{
+                            width: style.width - 8,
+                            height: titleHeight - 8,
+                            justifyContent: 'space-around',
+                            borderBottomWidth: 1,
+                            borderColor: '#f5f5f5'
+                        }}>
+                            <Text style={{color: '#333', fontSize: 14}} numberOfLines={1}>{feed.title}</Text>
+                            <Text style={{color: '#999', fontSize: 13}} numberOfLines={2}>{feed.description}</Text>
+                        </View>
                     </View>
-                </View>
 
                 }
                 {(feed.content_type == 5) &&
-                <View style={{
-                    height: 50,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    paddingHorizontal: 4
-                }}>
-                    <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                        <Image
-                            style={{width: 30, height: 30, borderRadius: 15}}
-                            source={publisherAvatar}
-                            defaultSource={require('../../images/img_default_avatar.png')}
-                        />
-                        <Text style={{color: '#999', fontSize: 10,}}>{feed.publisher}</Text>
+                    <View style={{
+                        height: 50,
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        paddingHorizontal: 4
+                    }}>
+                        <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                            <Image
+                                style={{width: 30, height: 30, borderRadius: 15}}
+                                source={publisherAvatar}
+                                defaultSource={require('../../images/img_default_avatar.png')}
+                            />
+                            <Text style={{color: '#999', fontSize: 10,marginLeft:5}}>{feed.publisher}</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                            <Image
+                                style={{width: 12, height: 12}}
+                                source={require('../../images/ic_homepage_like.png')}
+                            />
+                            <Text style={{color: '#999', fontSize: 11}}>{feed.like_ct}</Text>
+                        </View>
                     </View>
-                    <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                        <Image
-                            style={{width: 12, height: 12}}
-                            source={require('../../images/ic_homepage_like.png')}
-                        />
-                        <Text style={{color: '#999', fontSize: 11}}>{feed.like_ct}</Text>
-                    </View>
-                </View>
                 }
 
             </TouchableOpacity>

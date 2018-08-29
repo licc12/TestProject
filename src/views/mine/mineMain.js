@@ -15,6 +15,7 @@ export default class mineMain extends Component {
 
     _onPressStaticCell = title => alert(title)
     render() {
+        // alert('--18--'+JSON.stringify(this.props));
         return (
             <View style={{flex: 1,backgroundColor:'#f5f5f5'}}>
                 <HeaderView onPress = {this._goLogin} props = {this.props}/>

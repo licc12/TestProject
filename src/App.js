@@ -22,6 +22,8 @@ import {
 } from 'react-native';
 import test from "./views/foods/test";
 import GCHome from "./views/guangChi/GCHome";
+import GCDetails from "./views/guangChi/GCDetails";
+import ShareModal from "./component/ShareModal";
 
 
 
@@ -34,120 +36,121 @@ export default class App extends Component<Props> {
         };
     }
 
-
     render() {
         return (
             <Navigator />
         );
     }
 }
-const Tab = TabNavigator(
-    {
-        foodMain: {
-            screen: test,
-            navigationOptions: ({navigation}) => ({
-                tabBarLabel: '食物百科',
-                tabBarIcon: ({focused, tintColor}) => (
-                    <TabBarItem
-                        tintColor={tintColor}
-                        focused={focused}
-                        normalImage={require('./images/ic_tab_search.png')}
-                        selectedImage={require('./images/ic_tab_search_select.png')}
-                    />
-                )
-            }),
-        },
+const TabRouteConfigs = {
+    foodMain: {
+        screen: foodMain,
+        navigationOptions: ({navigation}) => ({
+            tabBarLabel: '食物百科',
+            tabBarIcon: ({focused, tintColor}) => (
+                <TabBarItem
+                    tintColor={tintColor}
+                    focused={focused}
+                    normalImage={require('./images/ic_tab_search.png')}
+                    selectedImage={require('./images/ic_tab_search_select.png')}
+                />
+            )
+        }),
+    },
 
-        guangChiMain: {
-            screen: guangChiMain,
-            navigationOptions: ({navigation}) => ({
-                tabBarLabel: '逛吃',
-                tabBarIcon: ({focused, tintColor}) => (
-                    <TabBarItem
-                        tintColor={tintColor}
-                        focused={focused}
-                        normalImage={require('./images/ic_tab_homepage.png')}
-                        selectedImage={require('./images/ic_tab_homepage_select.png')}
-                    />
-                )
-            }),
+    guangChiMain: {
+        screen: guangChiMain,
+        navigationOptions: ({navigation}) => ({
+            tabBarLabel: '逛吃',
+            tabBarIcon: ({focused, tintColor}) => (
+                <TabBarItem
+                    tintColor={tintColor}
+                    focused={focused}
+                    normalImage={require('./images/ic_tab_homepage.png')}
+                    selectedImage={require('./images/ic_tab_homepage_select.png')}
+                />
+            )
+        }),
+    },
+    mineMain: {
+        screen: mineMain,
+        navigationOptions: ({navigation}) => ({
+            tabBarLabel: '我的',
+            tabBarIcon: ({focused, tintColor}) => (
+                <TabBarItem
+                    tintColor={tintColor}
+                    focused={focused}
+                    normalImage={require('./images/ic_tab_my.png')}
+                    selectedImage={require('./images/ic_tab_my_select.png')}
+                />
+            )
+        }),
+    },
+}
+
+const TabNavigatorConfigs = {
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: 'bottom',
+    swipeEnabled: false,
+    animationEnabled: false,
+    lazy: true,
+    tabBarOptions: {
+        style: {//底部tab的样式
+            backgroundColor: '#ffffff',
+            height: 55,//tab的高度
         },
-        mineMain: {
-            screen: mineMain,
-            navigationOptions: ({navigation}) => ({
-                tabBarLabel: '我的',
-                tabBarIcon: ({focused, tintColor}) => (
-                    <TabBarItem
-                        tintColor={tintColor}
-                        focused={focused}
-                        normalImage={require('./images/ic_tab_my.png')}
-                        selectedImage={require('./images/ic_tab_my_select.png')}
-                    />
-                )
-            }),
+        activeTintColor:'#DF595E',//文字激活时的颜色
+        backBehavior:'none',
+        labelStyle: {//tab文字颜色
+            fontSize: 13, // 文字大小
         },
     },
 
-    {
-        tabBarComponent: TabBarBottom,
-        tabBarPosition: 'bottom',
+    indicatorStyle: {//标签指示器的样式对象（选项卡底部的行）。安卓底部会多出一条线，可以将height设置为0来暂时解决这个问题
+        height: 0,
+    },
+}
+
+const Tab = TabNavigator( TabRouteConfigs, TabNavigatorConfigs );
+
+const StackRouteConfigs = {
+    Tab: {screen: Tab},
+    splash: {screen: Splash},
+    foodMain: {screen: foodMain},
+    guangChiMain: {screen: guangChiMain},
+    mineMain: {screen: mineMain},
+    Details: {screen: Details},
+    ShopCar: {screen: ShopCar},
+    Login: {screen: Login},
+    foodDetails:{screen:foodDetails},
+    setting:{screen:setting},
+    GCHome:{screen:GCHome},
+    GCDetails:{screen:GCDetails},
+
+}
+
+const StackNavigatorConfig = {
+    navigationOptions: {
+        header:null,
+        headerTitle: '首页',
+        headerBackTitle: null,
+        headerStyle: {backgroundColor: '#ffffff'},//导航栏的样式
+        headerTitleStyle: {//导航栏文字的样式
+            color: '#333333',
+            fontSize: 16,//设置标题的大小
+            alignSelf: 'center',//居中显示
+        },
+        headerTintColor: 'yellow',
+        headerMode: 'screen',
+        showIcon: true,
         swipeEnabled: false,
         animationEnabled: false,
-        lazy: true,
-        tabBarOptions: {
-            style: {//底部tab的样式
-                backgroundColor: '#ffffff',
-                height: 55,//tab的高度
-            },
-            tabBarLabel: '法法',
-            labelStyle: {
-                fontSize: 13, // 文字大小
-                color: '#333333',
-            },
-        },
-        indicatorStyle: {//标签指示器的样式对象（选项卡底部的行）。安卓底部会多出一条线，可以将height设置为0来暂时解决这个问题
-            height: 1,
-        },
-
-    }
-);
-
-const Navigator = StackNavigator(
-    {
-        Tab: {screen: Tab},
-        splash: {screen: Splash},
-        foodMain: {screen: foodMain},
-        guangChiMain: {screen: guangChiMain},
-        mineMain: {screen: mineMain},
-        Details: {screen: Details},
-        ShopCar: {screen: ShopCar},
-        Login: {screen: Login},
-        foodDetails:{screen:foodDetails},
-        setting:{screen:setting},
-        GCHome:{screen:test},
+        gesturesEnabled: false,
     },
-    {
-        navigationOptions: {
-            header:null,
-            headerTitle: '首页',
-            headerBackTitle: null,
-            headerStyle: {backgroundColor: '#ffffff'},//导航栏的样式
-            headerTitleStyle: {//导航栏文字的样式
-                color: '#333333',
-                fontSize: 16,//设置标题的大小
-                alignSelf: 'center',//居中显示
-            },
-            headerTintColor: 'yellow',
-            headerMode: 'screen',
-            showIcon: true,
-            swipeEnabled: false,
-            animationEnabled: false,
-            gesturesEnabled: false,
-        },
-        mode: 'card',
+    mode: 'card',
+}
 
-    },
-);
+const Navigator = StackNavigator( StackRouteConfigs, StackNavigatorConfig );
 
 const styles = StyleSheet.create({
     container: {

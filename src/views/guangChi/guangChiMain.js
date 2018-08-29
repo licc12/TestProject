@@ -15,19 +15,22 @@ export default class guangChiMain extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             label: [{'title':'首页',type:1}, {'title':'测评',type:2}, {'title':'知识',type:3}, {'title':'美食',type:4}],
         };
     }
+
     _goLogin =()=>{
         alert('打开相机');
     }
     render() {
+        // alert('--28--'+JSON.stringify(this.props));
         return(
             <View style={{flex: 1,backgroundColor:'#FFFFFF'}}>
                 <Header title="逛吃" showGoBack={false} rightIcon={require('../../images/ic_feed_camera.png')} onRight={this._goLogin}/>
                 <View style={styles.line}/>
-                <TabTopView label={this.state.label}></TabTopView>
+                <TabTopView label={this.state.label} navigation={this.props.navigation}/>
             </View>
         );
     }
@@ -36,8 +39,10 @@ export default class guangChiMain extends Component {
 class TabTopView extends Component {
     constructor(props) {
         super(props);
+
     }
     render() {
+        // alert('--40--'+JSON.stringify(this.props));
         let {label} = this.props;
         return (
             <ScrollableTabView
@@ -49,7 +54,7 @@ class TabTopView extends Component {
                 tabBarActiveTextColor='#FF0000'>
                 {
                     label.map((item,index)=>{
-                        return <PageView style={styles.textStyle} tabLabel={item.title} item = {item} />
+                        return <PageView navigation={this.props.navigation} style={styles.textStyle} tabLabel={item.title} item = {item} />
                     })
                 }
             </ScrollableTabView>
@@ -62,23 +67,24 @@ class TabTopView extends Component {
 class PageView extends Component {
     constructor(props) {
         super(props);
-        // alert('--60--'+JSON.stringify(this.props));
+        //
     }
     render() {
+        // alert('--73--'+JSON.stringify(this.props));
         let {title,type} = this.props.item;
         return (
             <View style={{flex:1}}>
                 {
-                    (type == 1) && <GCHome style={styles.textStyle}/>
+                    (type == 1) && <GCHome navigation={this.props.navigation} style={styles.textStyle}/>
                 }
                 {
-                    (type == 2) && <GCEvaluation style={styles.textStyle}/>
+                    (type == 2) && <GCEvaluation navigation={this.props.navigation} style={styles.textStyle}/>
                 }
                 {
-                    (type == 3) && <GCKnowledge style={styles.textStyle}/>
+                    (type == 3) && <GCKnowledge navigation={this.props.navigation} style={styles.textStyle}/>
                 }
                 {
-                    (type == 4) && <GCFood style={styles.textStyle}/>
+                    (type == 4) && <GCFood navigation={this.props.navigation} style={styles.textStyle}/>
                 }
             </View>
         );

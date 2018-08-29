@@ -2,7 +2,10 @@
  * Created by licc on 2018/4/22.
  */
 import React, {Component} from 'react'
-import {StyleSheet, Image, Text, View, TouchableOpacity, ListView, ScrollView, RefreshControl} from "react-native";
+import {
+    StyleSheet, Image, Text, View, TouchableOpacity, ListView, ScrollView, RefreshControl,
+    WebView
+} from "react-native";
 import Header from "../../component/Header";
 var Dimensions = require('Dimensions');
 var ScreenWidth = Dimensions.get('window').width;
@@ -60,28 +63,44 @@ export default class Login extends Component {
         return (
             <View style={{flex: 1, backgroundColor: '#f5f5f5',}}>
                 <Header title="测试"/>
-                <ScrollView
-                    contentContainerStyle={{paddingTop: 10}}
-                    ref={scrollView => this.scrollView = scrollView}
-                    style={{width: ScreenWidth, height: ScreenHeight}}
-                    automaticallyAdjustContentInsets={false}
-                    removeClippedSubviews
-                    bounces
-                    scrollEventThrottle={16}
-                    onMomentumScrollEnd={this.onMomentumScrollEnd}
+                <WebViewComponent
+                    uri={'https://www.baidu.com/'}
+                />
+                {/*<ScrollView*/}
+                    {/*contentContainerStyle={{paddingTop: 10}}*/}
+                    {/*ref={scrollView => this.scrollView = scrollView}*/}
+                    {/*style={{width: ScreenWidth, height: ScreenHeight}}*/}
+                    {/*automaticallyAdjustContentInsets={false}*/}
+                    {/*removeClippedSubviews*/}
+                    {/*bounces*/}
+                    {/*scrollEventThrottle={16}*/}
+                    {/*onMomentumScrollEnd={this.onMomentumScrollEnd}*/}
 
-                >
-                    <View style={{marginTop: 10, justifyContent: 'space-around'}}>
-                        <AutoResponisve {...this.getAutoResponsiveProps()}>
-                            {this.accounts.map(this.renderChildren)}
-                        </AutoResponisve>
-                    </View>
-                </ScrollView>
+                {/*>*/}
+                    {/*<View style={{marginTop: 10, justifyContent: 'space-around'}}>*/}
+                        {/*<AutoResponisve {...this.getAutoResponsiveProps()}>*/}
+                            {/*{this.accounts.map(this.renderChildren)}*/}
+                        {/*</AutoResponisve>*/}
+                    {/*</View>*/}
+                {/*</ScrollView>*/}
             </View>
 
         )
     }
-
+}
+const WebViewComponent = ({popAction, uri}) => {
+    return (
+        <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
+            {/*<Header title="咨询详情" onBack={popAction} />*/}
+            <WebView
+                source={{uri}}
+                startInLoadingState={true}
+                bounces={false}
+                scalesPageToFit={true}
+                style={styles.webView}
+            />
+        </View>
+    )
 }
 const styles = StyleSheet.create({
     far: {

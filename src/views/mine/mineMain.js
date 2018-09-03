@@ -9,7 +9,7 @@ export default class mineMain extends Component {
         // headerTitle: '我的',
         header:null
     };
-    _goLogin =()=>{
+    _goLogin =(title)=>{
         this.props.navigation.navigate('Login');
     }
 
@@ -23,7 +23,7 @@ export default class mineMain extends Component {
                     title="我的照片"
                     style={{borderBottomWidth:1}}
                     imageName={require('../../images/ic_my_photos.png')}
-                    onPress={this.goLogin}
+                    onPress={this._goLogin}
                 />
                 <ProfileStaticCell
                     title="我的收藏"
@@ -33,7 +33,6 @@ export default class mineMain extends Component {
                 />
                 <ProfileStaticCell
                     title="上传食物"
-                    style={{borderBottomWidth: 1}}
                     imageName={require('../../images/ic_my_upload.png')}
                     onPress={this._onPressStaticCell}
                 />
@@ -53,45 +52,18 @@ const ProfileStaticCell = ({
     return (
         <TouchableOpacity
             activeOpacity={0.75}
-            style={styles.staticCell}
+            style={[styles.staticCell,{backgroundColor:'#FFFFFF',paddingHorizontal:15}]}
             onPress={()=>onPress(title)}
         >
-            <Image style={{width: 20, height: 20, marginHorizontal: 15}} source={imageName}/>
-            <View style={[styles.cellStyle, style || style]}>
-                <Text style={{color: 'gray'}}>{title}</Text>
-                <Image style={{width: 20, height: 20}} source={require('../../images/ic_my_right.png')}/>
+            <View style={[style||style,{borderBottomColor:'#efefef',flex:1,flexDirection:'row',alignItems:'center'}]}>
+                <Image style={{width: 20, height: 20,marginRight:15}} source={imageName}/>
+                <View style={styles.cellStyle}>
+                    <Text style={{color: 'gray'}}>{title}</Text>
+                    <Image style={{width: 20, height: 20}} source={require('../../images/ic_my_right.png')}/>
+                </View>
             </View>
         </TouchableOpacity>
     )
-}
-
-//列表组件
-class ItemList extends  Component{
-    constructor(props){
-        super(props);
-        this.state={
-            title:this.props.title,
-            imageName:this.props.imageName,
-            style:this.props.style,
-        }
-
-    }
-    render(){
-        return(
-            <TouchableOpacity
-                activeOpacity={0.75}
-                style={styles.staticCell}
-                onPress={()=>this.props.onPress(this.state.title)}
-            >
-                <Image style={{width: 20, height: 20, marginHorizontal: 15}} source={this.state.imageName}/>
-                <View style={[styles.cellStyle, this.state.style || this.state.style]}>
-                    <Text style={{color: 'gray'}}>{this.state.title}</Text>
-                    <Image style={{width: 20, height: 20}} source={require('../../images/ic_my_right.png')}/>
-                </View>
-            </TouchableOpacity>
-        )
-
-    }
 }
 
 class HeaderView extends Component{
@@ -121,7 +93,7 @@ class HeaderView extends Component{
 
                 <View style={{alignItems:'center',justifyContent:'center'}}>
                     <View style={styles.avatarContainer}>
-                        <Image style={{width: 80,height:80}} source={require('../../images/img_default_avatar.png')}/>
+                        <Image resizeMode={'stretch'} style={{width: 80,height:80,}} source={require('../../images/img_default_avatar.png')}/>
                     </View>
                     <TouchableOpacity
                         activeOpacity={0.75}
@@ -178,17 +150,16 @@ const styles = StyleSheet.create({
     },
     staticCell: {
         flexDirection: 'row',
-        height: 46,
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center'
     },
     cellStyle: {
         flex: 1,
-        height: 46,
-        borderColor: '#d9d9d9',
+        height: 50,
+        borderColor: '#f5f5f5',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingRight: 15
     }
 });

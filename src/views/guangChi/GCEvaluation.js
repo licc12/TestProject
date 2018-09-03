@@ -53,7 +53,14 @@ export default class GCEvaluation extends Component {
      * @param feed
      * @private
      */
-    _renderRow = feed => <EvaluatingItem feed={feed}/>
+    _renderRow = feed => <EvaluatingItem feed={feed} onPressCell = {this.onPressCell}/>
+    /**
+     *
+     * @param feed
+     */
+    onPressCell = feed=>{
+        this.props.navigation.navigate('GCDetails',{id:'GCDetails',feed});
+    }
     /**
      * _onEndReach 在不够一页时被触发
      * @private
@@ -99,12 +106,13 @@ export default class GCEvaluation extends Component {
 class EvaluatingItem extends PureComponent{
 
     render(){
-        const {feed,onPress} = this.props;
+        const {feed,onPressCell} = this.props;
 
         return (
             <TouchableOpacity
                 activeOpacity={0.75}
                 style={styles.itemFar}
+                onPress={()=>onPressCell(feed)}
             >
                 <ImageBackground style={styles.itemBgImg} source={{uri:feed.background}}>
                     <Text style={styles.itemSource}>{feed.source}</Text>

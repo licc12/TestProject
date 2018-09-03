@@ -20,12 +20,12 @@ export default class ShareModal extends Component {
             modalVisible: false,//模态场景是否可见
             transparent: true,//是否透明显示
             shareItem: [
-                {title: '微信', icon: require("../images/ic_share_to_wechat.png")},
-                {title: '朋友圈', icon: require("../images/ic_share_to_wechat_circle.png")},
-                {title: 'QQ空间', icon: require("../images/ic_share_to_qqzone.png")},
+                {title: 'QQ', icon: require("../images/ic_share_to_qq.png")},
+                {title: '微信收藏', icon: require("../images/ic_share_to_wechat_collect.png")},
                 {title: '微博', icon: require("../images/ic_share_to_weibo.png")},
+                {title: '微信好友', icon: require("../images/ic_share_to_wechat.png")},
+                {title: '微信朋友圈', icon: require("../images/ic_share_to_wechat_circle.png")},
                 {title: 'QQ空间', icon: require("../images/ic_share_to_qqzone.png")},
-                {title: '微博', icon: require("../images/ic_share_to_weibo.png")},
                 {title: null, icon: null},
                 {title: null, icon: null},
             ]

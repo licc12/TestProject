@@ -4,6 +4,7 @@
 import React, { Component } from 'react'
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import Header from "../../component/Header";
+import ShareModal from "../../component/ShareModal";
 
 export default class setting extends Component {
     _goBack = ()=>{
@@ -32,11 +33,12 @@ export default class setting extends Component {
                 <LineFar
                     title="将食物库分享给朋友"
                     imageName={require('../../images/ic_my_right.png')}
-                    onPress={this._listFar}
+                    onPress={()=>this.shareModal.showModal(true)}
                 />
                 <View style={styles.bottomTips}>
                     <Text style={styles.tipSize}>食物库 版本号：V2.6.2.1</Text>
                 </View>
+                <ShareModal ref={shareModal => this.shareModal = shareModal}/>
             </View>
         )
     }

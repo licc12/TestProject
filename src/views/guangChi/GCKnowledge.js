@@ -55,7 +55,12 @@ export default class GCKnowledge extends Component {
      * @param feed
      * @private
      */
-    _renderRow = feed => <GCKnowledgeItem feed={feed}/>
+    _renderRow = feed => <GCKnowledgeItem feed={feed} onPressCell={this.onPressCell}/>
+
+    onPressCell = feed=>{
+        this.props.navigation.navigate('GCDetails',{id:'GCDetails',feed});
+    }
+
     /**
      * _onEndReach 在不够一页时被触发
      * @private
@@ -101,13 +106,13 @@ export default class GCKnowledge extends Component {
 class GCKnowledgeItem extends PureComponent {
 
     render() {
-        const {feed, onPress} = this.props;
+        const {feed, onPressCell} = this.props;
         // alert('--103--'+JSON.stringify(feed));
 
         if (feed.images.length == 1) {
-            return <GCKnowledgeSingleItem feed={feed}/>
+            return <GCKnowledgeSingleItem feed={feed} onPress={()=>onPressCell(feed)}/>
         } else {
-            return <GCKnowledgeMultiItem feed={feed}/>
+            return <GCKnowledgeMultiItem feed={feed} onPress={()=>onPressCell(feed)}/>
         }
 
     }
@@ -117,6 +122,7 @@ class GCKnowledgeItem extends PureComponent {
  * 单图片列表模板
  */
 const GCKnowledgeSingleItem = ({
+    onPress,
     feed
 }) => {
     // alert('--122--'+JSON.stringify(feed));
@@ -124,6 +130,7 @@ const GCKnowledgeSingleItem = ({
         <TouchableOpacity
             activeOpacity={0.75}
             style={styles.itemFar}
+            onPress={onPress}
         >
             <View style={styles.itemLeft}>
                 <Text style={styles.leftTitle}>{feed.title}</Text>
@@ -151,13 +158,15 @@ const GCKnowledgeSingleItem = ({
  * 多图片列表模板
  */
 const GCKnowledgeMultiItem = ({
-   feed
+    onPress,
+    feed
 }) => {
     // alert('--155--'+JSON.stringify(feed));
     return (
         <TouchableOpacity
             activeOpacity={0.75}
             style={styles.itemFar}
+            onPress={onPress}
         >
             <View style={styles.itemLeft}>
                 <Text style={styles.multiTitle}>{feed.title}</Text>

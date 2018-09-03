@@ -11,15 +11,16 @@ import {
 } from 'react-native'
 
 import PropTypes from 'prop-types';
-const LeftItem = ({onPress}) => {
+const LeftItem = ({onPress,leftIcon}) => {
+    // alert('--leftIcon--'+JSON.stringify(leftIcon))
     return (
         <TouchableOpacity
             activeOpacity={0.75}
             style={styles.leftItem}
             onPress={onPress}
         >
-            <Image style={{width: 20, height: 20}}
-                   source={require('../images/ic_back_dark.png')}
+            <Image style={{width: 40, height: 40}}
+                   source={leftIcon ? leftIcon : require('../images/ic_back_dark.png')}
                    resizeMode={"contain"}
             />
         </TouchableOpacity>
@@ -59,25 +60,27 @@ export default class Header extends Component {
         titleStyle: PropTypes.object,
         rightTitle: PropTypes.string,
         onRight: PropTypes.func,
+        leftIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),//自定义返回按钮图标
         rightIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         renderRightItem: PropTypes.func
     }
 
     static defaultProps = {
-        showGoBack: true
+        showGoBack: true,
+        leftIcon:null
     }
 
     render() {
         const {
             title, titleStyle,
             showGoBack, onBack,
-            style, rightTitle, onRight, rightIcon,
+            style, rightTitle, onRight,leftIcon,rightIcon,
             renderRightItem
         } = this.props
         // alert('--77--'+JSON.stringify(this.props));
         return (
             <View style={[styles.header, style]}>
-                {showGoBack && <LeftItem onPress={onBack}/>}
+                {showGoBack && <LeftItem onPress={onBack} leftIcon={leftIcon}/>}
                 <Text style={[styles.title, titleStyle]}>{title || ''}</Text>
                 {rightTitle && <RightItem text={rightTitle} onPress={onRight}/>}
                 {rightIcon && <RightIconItem icon={rightIcon} onPress={onRight}/>}

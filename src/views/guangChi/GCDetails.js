@@ -29,11 +29,10 @@ export default class foodDetails extends Component {
 
     render() {
         const {feed} = this.props.navigation.state.params;
-        // alert('--36--'+JSON.stringify(feed));
         return (
             (feed.link && feed.content_type == 6) ?
                 <WebViewComponent
-                    popAction={() => this._goBack}
+                    popAction={this._goBack}
                     uri={feed.link}
                 />
                 :
@@ -46,9 +45,11 @@ export default class foodDetails extends Component {
                             feed={feed}
                         />
                         :
-                        <WebViewComponent
-                            popAction={() => this._goBack}
-                            uri={feed.link}
+                        <GCNewsComponent
+                            popAction={this._goBack}
+                            shareAction={()=>this.shareModal.showModal(true)}
+                            likeAction={()=>alert('登录后收藏')}
+                            feed={feed}
                         />
                     }
                     <ShareModal ref={shareModal => this.shareModal = shareModal}/>
@@ -111,7 +112,7 @@ const GCCardComponent = ({
                     flexDirection:'row',
                     bottom:0,
                     borderTopWidth:1,
-                    borderTopColor:'#f5f5f5'
+                    borderTopColor:'#efefef'
                 }}
             >
                 <Image style={{width:16,height:16,}} source={require('../../images/ic_feed_like.png')}/>
@@ -120,6 +121,72 @@ const GCCardComponent = ({
         </View>
     )
 }
+/**
+ *
+ * @param popAction 用于返回按钮
+ * @param uri webView的加载页面的url
+ * @returns {XML}
+ * @constructor
+ */
+const GCNewsComponent = ({
+     popAction,
+     feed,
+     shareAction,//分享回调
+     likeAction,//点赞回调
+}) =>{
+
+    return (
+        <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
+            <Header title="咨询详情" onBack={popAction} />
+            <WebView
+                source={{uri:feed.link}}
+                startInLoadingState={true}
+                bounces={false}
+                scalesPageToFit={true}
+                style={styles.webView}
+            />
+            <View style={{width:ScreenWidth,bottom:0,flexDirection:'row',backgroundColor:'yellow'}}>
+                <TouchableOpacity
+                    activeOpacity={0.75}
+                    onPress={shareAction}
+                    style={{
+                        flex:1,
+                        height:44,
+                        backgroundColor:'#FFFFFF',
+                        alignItems:'center',
+                        justifyContent:'center',
+                        flexDirection:'row',
+                        borderTopWidth:1,
+                        borderTopColor:'#f5f5f5'
+                    }}
+                >
+                    <Image style={{width:16,height:16,}} source={require('../../images/ic_photo_share.png')}/>
+                    <Text style={{color:'#666',marginLeft:5}}>分享</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    activeOpacity={0.75}
+                    onPress={likeAction}
+                    style={{
+                        flex:1,
+                        height:44,
+                        backgroundColor:'#fff',
+                        alignItems:'center',
+                        justifyContent:'center',
+                        flexDirection:'row',
+                        borderTopWidth:1,
+                        borderTopColor:'#efefef'
+                    }}
+                >
+                    <Image style={{width:16,height:16,}} source={require('../../images/ic_article_collect.png')}/>
+                    <Text style={{color:'#666',marginLeft:5}}>收藏</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    )
+
+}
+
+
 const WebViewComponent = ({popAction, uri}) => {
     return (
         <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>

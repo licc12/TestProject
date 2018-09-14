@@ -8,7 +8,7 @@ const router = {
     // 'mineMain': require('../views/mine/mineMain'),
     // 'Details': require('../component/Details'),
     splash: {screen: require('../views/splash/splash')},
-    foodMain: {screen: require('../views/foods/foodMain')},
+    foodMain: {screen: require('../views/home/home')},
     guangChiMain: {screen: require('../views/guangChi/guangChiMain')},
     mineMain: {screen:  require('../views/mine/mineMain')},
     Details: {screen: require('../component/Details')},

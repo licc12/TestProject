@@ -4,17 +4,23 @@
 import React, {Component} from 'react'
 import {
     StyleSheet, Image, Text, View, TouchableOpacity, ListView, ScrollView, RefreshControl,
+    NetInfo,
     WebView
 } from "react-native";
 import Header from "../../component/Header";
+import NetInfoDecorator from "../../config/NetInfoDecorator";
 var Dimensions = require('Dimensions');
 var ScreenWidth = Dimensions.get('window').width;
 var ScreenHeight = Dimensions.get('window').height;
 import AutoResponisve from 'autoresponsive-react-native'
+
+@NetInfoDecorator
 export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isConnected: null,
+            connectionInfo: null,
             dataSource: new ListView.DataSource({//ListView 的固定写法
                 rowHasChanged: (row1, row2) => row1 !== row2,
             })
@@ -22,9 +28,12 @@ export default class Login extends Component {
     }
 
     componentDidMount() {
-        // alert('will');
     }
-
+    //props改变时会执行该方法
+    componentWillReceiveProps(nextProps) {
+        alert('---34---'+JSON.stringify(nextProps));
+        // const {isConnected} = nextProps
+    }
     accounts = [
         {type: 1, name: 'A'},
         {type: 3, name: 'B'},
@@ -34,12 +43,11 @@ export default class Login extends Component {
         {type: 3, name: 'B'},
         {type: 2, name: 'C'},
         {type: 1, name: 'D'},
-
     ]
     renderChildren = (item, index) => {
         const style = {
             width: (ScreenWidth - 40) / 2,
-            backgroundColor: 'red',
+            backgroundColor: '#E7FF79',
             marginLeft: 15
         }
         let rheight = null;
@@ -63,26 +71,26 @@ export default class Login extends Component {
         return (
             <View style={{flex: 1, backgroundColor: '#f5f5f5',}}>
                 <Header title="测试"/>
-                <WebViewComponent
-                    uri={'https://www.baidu.com/'}
-                />
-                {/*<ScrollView*/}
-                    {/*contentContainerStyle={{paddingTop: 10}}*/}
-                    {/*ref={scrollView => this.scrollView = scrollView}*/}
-                    {/*style={{width: ScreenWidth, height: ScreenHeight}}*/}
-                    {/*automaticallyAdjustContentInsets={false}*/}
-                    {/*removeClippedSubviews*/}
-                    {/*bounces*/}
-                    {/*scrollEventThrottle={16}*/}
-                    {/*onMomentumScrollEnd={this.onMomentumScrollEnd}*/}
+                {/*<WebViewComponent*/}
+                    {/*uri={'https://www.baidu.com/'}*/}
+                {/*/>*/}
+                <ScrollView
+                    contentContainerStyle={{paddingTop: 10}}
+                    ref={scrollView => this.scrollView = scrollView}
+                    style={{width: ScreenWidth, height: ScreenHeight}}
+                    automaticallyAdjustContentInsets={false}
+                    removeClippedSubviews
+                    bounces
+                    scrollEventThrottle={16}
+                    onMomentumScrollEnd={this.onMomentumScrollEnd}
 
-                {/*>*/}
-                    {/*<View style={{marginTop: 10, justifyContent: 'space-around'}}>*/}
-                        {/*<AutoResponisve {...this.getAutoResponsiveProps()}>*/}
-                            {/*{this.accounts.map(this.renderChildren)}*/}
-                        {/*</AutoResponisve>*/}
-                    {/*</View>*/}
-                {/*</ScrollView>*/}
+                >
+                    <View style={{marginTop: 10, justifyContent: 'space-around'}}>
+                        <AutoResponisve {...this.getAutoResponsiveProps()}>
+                            {this.accounts.map(this.renderChildren)}
+                        </AutoResponisve>
+                    </View>
+                </ScrollView>
             </View>
 
         )
@@ -105,7 +113,7 @@ const WebViewComponent = ({popAction, uri}) => {
 const styles = StyleSheet.create({
     far: {
         width: (ScreenWidth - 30 * 2) / 2,
-        backgroundColor: 'red',
+        backgroundColor: '#E7FF79',
         // paddingTop: 30,
         marginTop: 5,
     },

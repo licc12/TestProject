@@ -20,7 +20,7 @@ class getFoodDetailsManager {
         this.kind = kind
         this.isFetching = true
         this.fetchFoods()
-        alert(kind+'--23--'+categoryId);
+        // alert(kind+'--23--'+categoryId);
     }
 
     @action

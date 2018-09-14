@@ -12,7 +12,6 @@ import {
 
 import PropTypes from 'prop-types';
 const LeftItem = ({onPress,leftIcon}) => {
-    // alert('--leftIcon--'+JSON.stringify(leftIcon))
     return (
         <TouchableOpacity
             activeOpacity={0.75}
@@ -27,14 +26,15 @@ const LeftItem = ({onPress,leftIcon}) => {
     )
 }
 
-const RightItem = ({onPress, text}) => {
+const RightItem = ({onPress, text, hasRightIcon}) => {
+    let margR = hasRightIcon? {right:20}:{}
     return (
         <TouchableOpacity
             activeOpacity={0.75}
-            style={styles.rightItem}
+            style={[styles.rightItem,margR]}
             onPress={onPress}
         >
-            <Text style={{fontSize: 15, color: '#666666'}}>{text}</Text>
+            <Text style={{fontSize: 13, color: '#666666'}}>{text}</Text>
         </TouchableOpacity>
     )
 }
@@ -77,12 +77,11 @@ export default class Header extends Component {
             style, rightTitle, onRight,leftIcon,rightIcon,
             renderRightItem
         } = this.props
-        // alert('--77--'+JSON.stringify(this.props));
         return (
             <View style={[styles.header, style]}>
                 {showGoBack && <LeftItem onPress={onBack} leftIcon={leftIcon}/>}
                 <Text style={[styles.title, titleStyle]}>{title || ''}</Text>
-                {rightTitle && <RightItem text={rightTitle} onPress={onRight}/>}
+                {rightTitle && <RightItem text={rightTitle} hasRightIcon={rightIcon} onPress={onRight}/>}
                 {rightIcon && <RightIconItem icon={rightIcon} onPress={onRight}/>}
                 {renderRightItem &&
                     <TouchableOpacity

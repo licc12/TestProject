@@ -3,7 +3,7 @@
  */
 
 import React, {Component, PureComponent} from 'react'
-import {Image, StyleSheet, Text, ListView, TouchableOpacity, View, RefreshControl, ImageBackground} from 'react-native'
+import {Image, StyleSheet, Text, ListView, TouchableOpacity, View, RefreshControl} from 'react-native'
 import {observer} from 'mobx-react/native';
 import Loading from '../../component/Loading';
 import {reaction} from 'mobx';
@@ -74,7 +74,7 @@ export default class GCKnowledge extends Component {
 
     render() {
         const {isFetching, isRefreshing, feedList} = this.knowledgeListStore;
-        // alert('--64--'+JSON.stringify(feedList));
+        alert('--64--'+JSON.stringify(feedList));
         return (
             <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
                 {!isFetching &&

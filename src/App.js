@@ -4,28 +4,21 @@
 import React, {Component} from 'react';
 import {StackNavigator, TabNavigator, TabBarBottom} from 'react-navigation';
 import Splash from './views/splash/splash';
-import foodMain from './views/foods/foodMain';
+import home from './views/home/home';
 import guangChiMain from './views/guangChi/guangChiMain';
 import mineMain from './views/mine/mineMain';
 import TabBarItem from './component/TabBarItem';
 import Details from './component/Details';
 import ShopCar from './component/ShopCar';
 import Login from "./views/login/login";
-import foodDetails from "./views/foods/foodDetails";
+import foodTypes from "./views/home/foodTypes";
 import setting from "./views/mine/setting";
-import {
-    Image,
-    Platform,
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
-import test from "./views/foods/test";
 import GCHome from "./views/guangChi/GCHome";
 import GCDetails from "./views/guangChi/GCDetails";
-import ShareModal from "./component/ShareModal";
-
-
+import test from "./views/home/test";
+import {
+    StyleSheet,
+} from 'react-native';
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -43,8 +36,8 @@ export default class App extends Component<Props> {
     }
 }
 const TabRouteConfigs = {
-    foodMain: {
-        screen: foodMain,
+    home: {
+        screen: home,
         navigationOptions: ({navigation}) => ({
             tabBarLabel: '食物百科',
             tabBarIcon: ({focused, tintColor}) => (
@@ -99,8 +92,8 @@ const TabNavigatorConfigs = {
             backgroundColor: '#ffffff',
             height: 55,//tab的高度
         },
-        activeTintColor:'#DF595E',//文字激活时的颜色
-        backBehavior:'none',
+        activeTintColor: '#DF595E',//文字激活时的颜色
+        backBehavior: 'none',
         labelStyle: {//tab文字颜色
             fontSize: 13, // 文字大小
         },
@@ -111,27 +104,28 @@ const TabNavigatorConfigs = {
     },
 }
 
-const Tab = TabNavigator( TabRouteConfigs, TabNavigatorConfigs );
+const Tab = TabNavigator(TabRouteConfigs, TabNavigatorConfigs);
 
 const StackRouteConfigs = {
     Tab: {screen: Tab},
     splash: {screen: Splash},
-    foodMain: {screen: foodMain},
+    home: {screen: home},
     guangChiMain: {screen: guangChiMain},
     mineMain: {screen: mineMain},
     Details: {screen: Details},
     ShopCar: {screen: ShopCar},
     Login: {screen: Login},
-    foodDetails:{screen:foodDetails},
-    setting:{screen:setting},
-    GCHome:{screen:GCHome},
-    GCDetails:{screen:GCDetails},
+    foodTypes: {screen: foodTypes},
+    setting: {screen: setting},
+    GCHome: {screen: GCHome},
+    GCDetails: {screen: GCDetails},
+    Test: {screen: test},
 
 }
 
 const StackNavigatorConfig = {
     navigationOptions: {
-        header:null,
+        header: null,
         headerTitle: '首页',
         headerBackTitle: null,
         headerStyle: {backgroundColor: '#ffffff'},//导航栏的样式
@@ -150,7 +144,7 @@ const StackNavigatorConfig = {
     mode: 'card',
 }
 
-const Navigator = StackNavigator( StackRouteConfigs, StackNavigatorConfig );
+const Navigator = StackNavigator(StackRouteConfigs, StackNavigatorConfig);
 
 const styles = StyleSheet.create({
     container: {

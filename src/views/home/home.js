@@ -12,12 +12,14 @@ import Loading from '../../component/Loading'
 import Toast, {DURATION} from 'react-native-easy-toast'
 // import {Dimensions} from "react-native";
 
-
+var Dimensions = require('Dimensions');
+var ScreenWidth = Dimensions.get('window').width;
+var ScreenHeight = Dimensions.get('window').height;
 // const {height, width} = Dimensions.get('window');//这个是过去到屏幕宽度、高度，用于适配
 // import FootMainListData from '../../footStore/FootMainListData'
 @NetInfoDecorator //此处注入的网络监听器会一直保持对网络的监听
 @observer
-export default class foodMain extends Component {
+export default class home extends Component {
     // footMainListData = new FootMainListData()
     footMainListData = new FoodEncyclopediaStore()
     componentWillReact() {
@@ -61,8 +63,8 @@ export default class foodMain extends Component {
     }
     goDetails = (kind,category) => {
         // alert('--kind--'+JSON.stringify(kind))
-        this.props.navigation.navigate('foodDetails',{
-            id: 'foodDetails',
+        this.props.navigation.navigate('foodTypes',{
+            id: 'foodTypes',
             passProps: {
                 kind,
                 category,
@@ -78,7 +80,7 @@ export default class foodMain extends Component {
 
                 <ScrollView
                     bounces={false}
-                    style={{width:'100%',height:'100%'}}
+                    // style={{width:ScreenWidth,height:ScreenHeight}}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{alignItems:'center',backgroundColor: '#f5f5f5',paddingBottom:10}}
@@ -88,25 +90,20 @@ export default class foodMain extends Component {
                     <FootHandleView handleAction={this.handleAction}/>
                     {isConnected ?
                         <View>
-                        {foodCategoryList.map(foodCategory => {
-                            return (
-                                <ListItems
-                                    key={`FoodCategory-${foodCategory.kind}`}
-                                    foodCategory={foodCategory}
-                                    fun={this.goDetails}
-                                />
-                            )
-                        })}
-                    </View>  :<ReconnectView onPress={this._reconnectHandle}/>}
+                            {foodCategoryList.map(foodCategory => {
+                                return (
+                                    <ListItems
+                                        key={`FoodCategory-${foodCategory.kind}`}
+                                        foodCategory={foodCategory}
+                                        fun={this.goDetails}
+                                    />
+                                )
+                            })}
+                        </View> :
+                        <ReconnectView onPress={this._reconnectHandle}/>}
 
 
                 </ScrollView>
-                {/*<TouchableOpacity style={{padding: 10}}*/}
-                    {/*onPress={()=>{*/}
-                        {/*this.refs.toast.show('hello Toast!',2000); }*/}
-                    {/*}>*/}
-                    {/*<Text>Press me</Text>*/}
-                {/*</TouchableOpacity>*/}
                 <Loading isShow={isFetching}/>
                 <Toast
                     ref="toast"
@@ -134,32 +131,32 @@ const ListItems = ({foodCategory,fun})=>{
         title = '连锁餐饮';
     }
     return (
-        <View style={{backgroundColor:'white',marginTop: 10, overflow: 'hidden'}}>
+        <View style={{backgroundColor:'#f5f5f5',marginTop:10,paddingHorizontal:15}}>
             <View style={styles.listHeader}>
-                <Text style={{color: 'gray'}}>{title}</Text>
-                <View style={{width:330,height:14,backgroundColor:'#f5f5f5'}}>
-                    <Image
-                        style={{width:330,height:14}}
-                        source={require('../../images/img_home_list_bg.png')}
-                    />
+                <View style={{width:ScreenWidth-30,height:30,alignItems:'center',backgroundColor:'#FFF'}}>
+                    <Text style={{color: 'gray',height:30,lineHeight:30}}>{title}</Text>
                 </View>
+                <Image
+                    resizeMode={'contain'}
+                    style={{width:(ScreenWidth-15-15),height:19}}
+                    source={require('../../images/img_home_list_bg.png')}
+                />
             </View>
-            <View style={{flexDirection:'row',flexWrap:"wrap",width:330,backgroundColor:'white'}}>
+            <View style={{flexDirection:'row',flexWrap:"wrap",width:ScreenWidth-15-15,backgroundColor:'white'}}>
                 {
                     foodCategory.categories.map((item)=>{
-                            // return <ItemListsChild {...item}
                         return (
                                 <TouchableOpacity
                                     key={item.id}
                                     activeOpacity={0.75}
-                                    style={{width: 110, height: 65, alignItems: 'center', marginBottom: 25}}
+                                    style={{width: (ScreenWidth -30)/3, marginTop:20, height: 75, alignItems: 'center', marginBottom: 25}}
                                     onPress={() => fun(foodCategory,item)}
                                 >
 
-                                    <Image style={{width: 40, height: 40}} resizeMode='contain'
+                                    <Image style={{width: 50, height: 50}} resizeMode='contain'
                                            source={{uri: item.image_url}}>
                                     </Image>
-                                    <Text style={{color: 'grey', fontSize: 12, marginTop: 5}}>
+                                    <Text style={{color: '#888', fontSize: 15, marginTop: 5}}>
                                         {item.name}
                                     </Text>
 
@@ -274,9 +271,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     handleView:{
-        width:330,
+        width:ScreenWidth,
         height: 60,
         marginTop: 10,
+        paddingHorizontal:15,
         flexDirection:'row',//子容器水平排列
         alignItems:'center',
         justifyContent: 'center',
@@ -338,8 +336,9 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     listHeader:{
-        height: 40,
+        // height: 40,
         alignItems:'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
+        backgroundColor:'#f5f5f5'
     },
 })

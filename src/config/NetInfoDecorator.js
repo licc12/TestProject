@@ -13,6 +13,16 @@ const NetInfoDecorator = WrappedComponent => class extends Component {
     }
 
     componentDidMount() {
+        //检测网络是否连接
+        // NetInfo.isConnected.fetch().done((isConnected) => {//每次只执行一次
+        //     // alert('--31--'+JSON.stringify(isConnected));
+        //     this.setState({isConnected});
+        // });
+        // //检测网络连接信息
+        // NetInfo.fetch().done((connectionInfo) => {//每次只执行一次
+        //     // alert('--35--'+JSON.stringify(connectionInfo));
+        //     this.setState({connectionInfo});
+        // });
         NetInfo.isConnected.addEventListener('change', this._handleNetworkConnectivityChange);
     }
 
